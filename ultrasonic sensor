@@ -1,5 +1,5 @@
-int pirPin = 2;         
-int pirStat = 0;   
+const int trigPin = 2;
+const int echoPin = 3;
 int led = 13;
 
 
@@ -7,7 +7,8 @@ long duration;
 int distance;
 
 void setup() {
-      pinMode(pirPin, INPUT);     
+      pinMode(trigPin, OUTPUT); 
+      pinMode(echoPin, INPUT); 
       pinMode(led, OUTPUT);
       Serial.begin(9600);
 }
@@ -31,7 +32,7 @@ void loop() {
     }
     else
     {
-      digitalWrite(led, LOW);
+      digitalWrite(led, HIGH);
     }
     Serial.print("Distance: ");
     Serial.println(distance);
