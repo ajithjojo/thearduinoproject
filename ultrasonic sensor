@@ -1,0 +1,38 @@
+int pirPin = 2;         
+int pirStat = 0;   
+int led = 13;
+
+
+long duration;
+int distance;
+
+void setup() {
+      pinMode(pirPin, INPUT);     
+      pinMode(led, OUTPUT);
+      Serial.begin(9600);
+}
+
+void loop() {
+
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    duration = pulseIn(echoPin, HIGH);
+    // Calculating the distance
+    distance = duration * 0.034 / 2;
+    // Prints the distance on the Serial Monitor
+    if(distance<20)
+    {
+      digitalWrite(led, HIGH);
+    }
+    else
+    {
+      digitalWrite(led, LOW);
+    }
+    Serial.print("Distance: ");
+    Serial.println(distance);
+}
