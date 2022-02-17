@@ -1,0 +1,47 @@
+char inputByte;
+int myvalue =1;
+int led = 13;
+
+
+void setup() {
+ Serial.begin(9600);
+ pinMode(13,OUTPUT);
+
+}
+
+void loop() {
+  
+   blinkeys();
+   
+  while(Serial.available()>0){
+    inputByte= Serial.read();
+    Serial.println(inputByte);
+    if (inputByte=='Z'){
+    digitalWrite(13,HIGH);
+    }
+    else if (inputByte=='z'){
+    digitalWrite(13,LOW);
+    }
+    else if (inputByte=='k'){
+       myvalue =5;
+       Serial.println(myvalue);
+    } 
+    else if (inputByte=='j'){
+       myvalue =10;
+       Serial.println(myvalue);
+    } 
+    else if (inputByte=='c'){       
+       Serial.println(myvalue);
+    } 
+
+   
+  }
+}
+
+int blinkeys()
+{
+   digitalWrite(led, HIGH);   
+   delay(5000); 
+   digitalWrite(led, LOW); 
+   delay(5000);
+}
