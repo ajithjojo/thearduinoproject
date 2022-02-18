@@ -1,0 +1,50 @@
+#include<Servo.h>
+Servo Myservo;
+int pos;
+
+
+
+void setup() {
+  Myservo.attach(3);
+
+}
+
+void loop() {
+     
+    
+     servoright(20,150);
+     delay(1000); 
+      servoleft(20,40);
+      delay(1000); 
+
+    
+
+}
+
+void  servoright(int spd,int newpos)
+{
+    for(pos=90;pos<=newpos;pos++){
+    Myservo.write(pos);
+    delay(spd); 
+    }    
+     delay(3000);      
+    for(pos=newpos;pos>=90;pos--){
+    Myservo.write(pos);
+    delay(spd);
+    }
+}
+
+void  servoleft(int spd,int newpos)
+{
+    for(pos=90;pos>=newpos;pos--){
+    Myservo.write(pos);
+    delay(spd);
+    }
+     delay(3000);     
+    for(pos=newpos;pos<=90;pos++){
+    Myservo.write(pos);
+    delay(spd); 
+    }    
+     
+    
+}
