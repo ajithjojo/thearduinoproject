@@ -1,0 +1,198 @@
+#include<Servo.h>
+Servo Myservo;
+int pos;
+const int trigPin = 4;
+const int echoPin = 5;
+int led = 13;
+
+long duration;
+int distance;
+
+int motor1pin1 = 6;
+int motor1pin2 = 7;
+int motor2pin1 = 8;
+int motor2pin2 = 9;
+
+
+void setup() {
+  Myservo.attach(3);
+   pinMode(trigPin, OUTPUT); 
+   pinMode(echoPin, INPUT); 
+   pinMode(led, OUTPUT);
+
+  pinMode(motor1pin1, OUTPUT);
+  pinMode(motor1pin2, OUTPUT);
+  pinMode(motor2pin1, OUTPUT);
+  pinMode(motor2pin2, OUTPUT);
+  pinMode(10, OUTPUT); 
+  pinMode(11, OUTPUT);
+
+   
+   Serial.begin(9600);
+
+}
+void loop() {     
+
+    wheretomove();
+    
+    
+
+}
+
+int  servoright(int spd,int newpos)
+{
+    for(pos=90;pos<=newpos;pos++){
+    Myservo.write(pos);
+    delay(spd); 
+    }    
+   int newdistance =  checkdistance();    
+     delay(1000);      
+    for(pos=newpos;pos>=90;pos--){
+    Myservo.write(pos);
+    delay(spd);
+    }
+   return newdistance;
+}
+
+int  servoleft(int spd,int newpos)
+{
+    for(pos=90;pos>=newpos;pos--){
+    Myservo.write(pos);
+    delay(spd);
+    }
+   int newdistance =   checkdistance();    
+     delay(1000);     
+    for(pos=newpos;pos<=90;pos++){
+    Myservo.write(pos);
+    delay(spd); 
+    }
+    
+     return newdistance;
+    
+}
+
+
+int  checkdistance()
+{
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    // Reads the echoPin, returns the sound wave travel time in microseconds
+    duration = pulseIn(echoPin, HIGH);
+    // Calculating the distance
+    distance = duration * 0.034 / 2;
+    // Prints the distance on the Serial Monitor
+  
+     return distance;
+    
+}
+
+void  wheretomove()
+{
+   int left = servoleft(2,40);  
+   int center =checkdistance();   
+   int right =servoright(2,150);   
+
+  if(center < 20 && left < 20 && right < 20)
+  {
+     Serial.print("no space turn back  ");
+  }
+  else{
+    if(center > left && center > right)
+    {
+        Serial.print("move center  ");
+        moveforward();
+    }
+    else if(left > center && left > right)
+    {
+        Serial.print("move left  ");
+        trunleft();
+    }
+    else if(right > center && right > left)
+    {        
+        Serial.print("move right  ");
+        trunright();
+    }
+    else
+    {
+       Serial.print("turn back  ");
+       movebackward();
+    }
+  }
+
+    Serial.print("left :");
+     Serial.print(left);
+       Serial.print(", center :");
+     Serial.print(center);
+      Serial.print(", right :");
+    Serial.println(right);    
+         
+    
+    
+}
+
+
+
+
+
+
+int moveforward()
+{
+  //Controlling speed (0 = off and 255 = max speed):
+  analogWrite(10, 200); //ENA pin
+  analogWrite(11, 200); //ENB pin
+  
+  //Controlling spin direction of motors:
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+  delay(1000);    
+}
+
+int movebackward()
+{
+  //Controlling speed (0 = off and 255 = max speed):
+  analogWrite(10, 200); //ENA pin
+  analogWrite(11, 200); //ENB pin  
+
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+  delay(1000);  
+}
+
+
+int trunright()
+{
+  //Controlling speed (0 = off and 255 = max speed):
+  analogWrite(10, 150); //ENA pin
+  analogWrite(11, 150); //ENB pin  
+
+  digitalWrite(motor1pin1, HIGH);
+  digitalWrite(motor1pin2, LOW);
+
+  digitalWrite(motor2pin1, LOW);
+  digitalWrite(motor2pin2, HIGH);
+  delay(1000);  
+}
+
+int trunleft()
+{
+  //Controlling speed (0 = off and 255 = max speed):
+  analogWrite(10, 150); //ENA pin
+  analogWrite(11, 150); //ENB pin  
+
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
+
+  digitalWrite(motor2pin1, HIGH);
+  digitalWrite(motor2pin2, LOW);
+  delay(1000);  
+}
