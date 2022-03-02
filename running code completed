@@ -24,7 +24,7 @@ void setup() {
   pinMode(motor1pin2, OUTPUT);
   pinMode(motor2pin1, OUTPUT);
   pinMode(motor2pin2, OUTPUT);
-  pinMode(10, OUTPUT); 
+  pinMode(12, OUTPUT); 
   pinMode(11, OUTPUT);
 
    
@@ -92,6 +92,8 @@ int  checkdistance()
 
 void  wheretomove()
 {
+   analogWrite(12, 60); //ENA pin
+  analogWrite(11, 60); //ENB pin
    int left = servoleft(2,40);  
    int center =checkdistance();   
    int right =servoright(2,150);   
@@ -141,11 +143,7 @@ void  wheretomove()
 
 int moveforward()
 {
-  //Controlling speed (0 = off and 255 = max speed):
-  analogWrite(10, 200); //ENA pin
-  analogWrite(11, 200); //ENB pin
-  
-  //Controlling spin direction of motors:
+   //Controlling spin direction of motors:
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
 
@@ -156,10 +154,6 @@ int moveforward()
 
 int movebackward()
 {
-  //Controlling speed (0 = off and 255 = max speed):
-  analogWrite(10, 200); //ENA pin
-  analogWrite(11, 200); //ENB pin  
-
   digitalWrite(motor1pin1, LOW);
   digitalWrite(motor1pin2, HIGH);
 
@@ -171,10 +165,6 @@ int movebackward()
 
 int trunright()
 {
-  //Controlling speed (0 = off and 255 = max speed):
-  analogWrite(10, 150); //ENA pin
-  analogWrite(11, 150); //ENB pin  
-
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
 
@@ -185,9 +175,6 @@ int trunright()
 
 int trunleft()
 {
-  //Controlling speed (0 = off and 255 = max speed):
-  analogWrite(10, 150); //ENA pin
-  analogWrite(11, 150); //ENB pin  
 
   digitalWrite(motor1pin1, LOW);
   digitalWrite(motor1pin2, HIGH);
